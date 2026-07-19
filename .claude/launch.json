@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "expo-web",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\npx.cmd",
+      "runtimeArgs": ["expo", "start", "--web", "--port", "8081"],
+      "cwd": "C:\\Users\\HP\\Downloads\\khelte-khelte-shekha",
+      "port": 8081
+    }
+  ]
+}
