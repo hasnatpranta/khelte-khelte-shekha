@@ -45,8 +45,33 @@ export default function Tracing() {
 
   const glyph = glyphs[idx];
   const bn = app.language === 'bn';
+  const [needMore, setNeedMore] = useState(false);
+
+  // Loose stroke validation: enough ink, spread across the letter area.
+  // (No red X — if it's not enough yet, Tutul just asks for a little more.)
+  const inkIsEnough = () => {
+    const pts = strokes
+      .flatMap((s) => s.split(' '))
+      .map((p) => p.split(',').map(Number))
+      .filter((p) => p.length === 2 && !p.some(isNaN));
+    if (pts.length < 12) return false;
+    let len = 0;
+    for (let i = 1; i < pts.length; i++) {
+      len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    }
+    if (len < PAD * 0.9) return false;
+    const bands = (axis: 0 | 1) =>
+      new Set(pts.map((p) => Math.min(2, Math.floor((p[axis] / PAD) * 3)))).size;
+    return bands(0) >= 2 && bands(1) >= 2;
+  };
 
   const finish = () => {
+    if (!inkIsEnough()) {
+      setNeedMore(true);
+      say(bn ? 'আরেকটু লেখো, তুমি পারবে!' : 'Trace a little more, you can do it!', app.language);
+      return;
+    }
+    setNeedMore(false);
     setDone(true);
     app.addStars(2);
     say(bn ? 'দারুণ! খুব সুন্দর হয়েছে!' : 'Great job! Beautiful!', app.language);
@@ -88,6 +113,12 @@ export default function Tracing() {
               <Text style={styles.cheerText}>+2 ⭐</Text>
             </View>
           )}
+          {needMore && !done && (
+            <View style={styles.cheer} pointerEvents="none">
+              <Tutul size={90} mood="thinking" />
+              <Text style={styles.cheerText}>{bn ? 'আরেকটু!' : 'A bit more!'}</Text>
+            </View>
+          )}
         </View>
         <View style={{ flexDirection: 'row', gap: 12, marginTop: 16 }}>
           <ChunkyButton
@@ -100,6 +131,7 @@ export default function Tracing() {
             onPress={() => {
               setStrokes([]);
               setDone(false);
+              setNeedMore(false);
             }}
           />
           {done ? (

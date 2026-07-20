@@ -8,10 +8,10 @@ export default function Play() {
   const app = useApp();
   const bn = app.language === 'bn';
   const games = [
-    { emoji: '🎈', bn: 'বেলুন ফাটাও', en: 'Balloon Pop', ready: true, color: colors.coral, shadow: colors.coralDark },
-    { emoji: '🧩', bn: 'ধাঁধা', en: 'Puzzles', ready: false, color: colors.sky, shadow: colors.skyDark },
-    { emoji: '🃏', bn: 'মেমোরি জোড়া', en: 'Memory Pairs', ready: false, color: colors.grape, shadow: colors.grapeDark },
-    { emoji: '🎨', bn: 'রং করি', en: 'Coloring', ready: false, color: colors.teal, shadow: colors.tealDark },
+    { emoji: '🎈', bn: 'বেলুন ফাটাও', en: 'Balloon Pop', screen: 'balloon' as const, color: colors.coral, shadow: colors.coralDark },
+    { emoji: '🧩', bn: 'ধাঁধা', en: 'Puzzles', screen: 'puzzle' as const, color: colors.sky, shadow: colors.skyDark },
+    { emoji: '🃏', bn: 'মেমোরি জোড়া', en: 'Memory Pairs', screen: 'memory' as const, color: colors.grape, shadow: colors.grapeDark },
+    { emoji: '🎨', bn: 'রং করি', en: 'Coloring', screen: 'coloring' as const, color: colors.teal, shadow: colors.tealDark },
   ];
 
   return (
@@ -22,13 +22,12 @@ export default function Play() {
           {games.map((g) => (
             <Pressable
               key={g.en}
-              style={[styles.tile, { backgroundColor: g.color, borderBottomColor: g.shadow, opacity: g.ready ? 1 : 0.45 }]}
-              onPress={() => g.ready && app.go('balloon')}
+              style={[styles.tile, { backgroundColor: g.color, borderBottomColor: g.shadow }]}
+              onPress={() => app.go(g.screen)}
             >
               <Text style={{ fontSize: 44 }}>{g.emoji}</Text>
               <Text style={styles.tileBn}>{g.bn}</Text>
               <Text style={styles.tileEn}>{g.en}</Text>
-              {!g.ready && <Text style={styles.soon}>{bn ? 'শীঘ্রই আসছে' : 'coming soon'}</Text>}
             </Pressable>
           ))}
         </View>

@@ -14,6 +14,9 @@ import Stories from './src/screens/Stories';
 import Rewards from './src/screens/Rewards';
 import Tracing from './src/screens/Tracing';
 import BalloonPop from './src/screens/BalloonPop';
+import MemoryPairs from './src/screens/MemoryPairs';
+import Puzzle from './src/screens/Puzzle';
+import Coloring from './src/screens/Coloring';
 import { ParentDashboard, ParentGate } from './src/screens/Parents';
 
 function Router() {
@@ -27,6 +30,9 @@ function Router() {
     case 'rewards': return <Rewards />;
     case 'tracing': return <Tracing />;
     case 'balloon': return <BalloonPop />;
+    case 'memory': return <MemoryPairs />;
+    case 'puzzle': return <Puzzle />;
+    case 'coloring': return <Coloring />;
     case 'parentGate': return <ParentGate />;
     case 'parents': return <ParentDashboard />;
   }

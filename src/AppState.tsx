@@ -11,6 +11,9 @@ export type Screen =
   | 'rewards'
   | 'tracing'
   | 'balloon'
+  | 'memory'
+  | 'puzzle'
+  | 'coloring'
   | 'parentGate'
   | 'parents';
 
